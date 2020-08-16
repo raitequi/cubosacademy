@@ -1,0 +1,80 @@
+1. SELECT COUNT(id) FROM imoveis WHERE cidade = 'São Paulo' AND andar = '3' AND total <= '200000' OR cidade = 'São Paulo' AND andar = '4' AND total <= '200000';
+
+2. SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'São Paulo' AND andar = '3' AND total <= '200000' OR cidade = 'São Paulo' AND andar = '4' AND total <= '200000';
+
+SELECT AVG(condominio) FROM imoveis WHERE cidade = 'São Paulo' AND andar = '3' AND total <= '200000' OR cidade = 'São Paulo' AND andar = '4' AND total <= '200000';
+
+3. SELECT COUNT(id) FROM imoveis WHERE 
+cidade = 'São Paulo' AND andar = '3' AND total <= 200000 OR 
+cidade = 'São Paulo' AND andar = '4' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '3' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '4' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '3' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '4' AND total <= 200000;
+
+4. SELECT AVG(aluguel) FROM imoveis WHERE 
+cidade = 'São Paulo' AND andar = '3' AND total <= 200000 OR 
+cidade = 'São Paulo' AND andar = '4' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '3' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '4' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '3' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '4' AND total <= 200000;
+
+SELECT AVG(condominio) FROM imoveis WHERE 
+cidade = 'São Paulo' AND andar = '3' AND total <= 200000 OR 
+cidade = 'São Paulo' AND andar = '4' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '3' AND total <= 200000 OR
+cidade = 'Rio de Janeiro' AND andar = '4' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '3' AND total <= 200000 OR
+cidade = 'Belo Horizonte' AND andar = '4' AND total <= 200000;
+
+5. SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'São Paulo' AND andar <> '-';
+
+6. SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'São Paulo' AND andar = '-';
+
+7. SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'São Paulo';
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Campinas';
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Belo Horizonte';
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Rio de Janeiro';
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Porto Alegre';
+
+8. SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'São Paulo' AND banheiros >=2 AND animais = TRUE;
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Campinas' AND banheiros >=2 AND animais = TRUE;
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Belo Horizonte' AND banheiros >=2 AND animais = TRUE;
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Rio de Janeiro' AND banheiros >=2 AND animais = TRUE;
+SELECT COUNT(cidade) FROM imoveis WHERE cidade = 'Porto Alegre' AND banheiros >=2 AND animais = TRUE;
+
+9. SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'São Paulo' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'Campinas' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'Belo Horizonte' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'Rio de Janeiro' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(aluguel) FROM imoveis WHERE cidade = 'Porto Alegre' AND banheiros >=2 AND animais = TRUE;
+
+10. SELECT AVG(condominio) FROM imoveis WHERE cidade = 'São Paulo' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(condominio) FROM imoveis WHERE cidade = 'Campinas' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(condominio) FROM imoveis WHERE cidade = 'Belo Horizonte' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(condominio) FROM imoveis WHERE cidade = 'Rio de Janeiro' AND banheiros >=2 AND animais = TRUE;
+SELECT AVG(condominio) FROM imoveis WHERE cidade = 'Porto Alegre' AND banheiros >=2 AND animais = TRUE;
+
+11. SELECT AVG(total) FROM imoveis WHERE cidade = 'Campinas' AND banheiros >=3 AND animais = TRUE AND quartos >=3 AND andar='-' AND mobilias=TRUE;
+
+12. SELECT AVG(total) FROM imoveis WHERE area <=60 AND banheiros =3 AND andar <> '-';
+
+13. SELECT COUNT(id) FROM imoveis WHERE 
+cidade = 'São Paulo' AND banheiros >=4 AND andar <> '-' AND animais = TRUE AND mobilias = TRUE AND total < 300000 OR 
+cidade = 'Campinas' AND andar = '-' AND banheiros >=3 AND animais = TRUE AND mobilias = FALSE AND total <=250000 OR
+cidade = 'Belo Horizonte' AND andar = '-' AND banheiros = 2 AND animais = TRUE AND mobilias = TRUE AND total <=200000;
+
+14. SELECT MAX(total) FROM imoveis WHERE cidade = 'São Paulo';
+SELECT MAX(total) FROM imoveis WHERE cidade = 'Campinas';
+SELECT MAX(total) FROM imoveis WHERE cidade = 'Belo Horizonte';
+SELECT MAX(total) FROM imoveis WHERE cidade = 'Rio de Janeiro';
+SELECT MAX(total) FROM imoveis WHERE cidade = 'Porto Alegre';
+
+SELECT MIN(total) FROM imoveis WHERE cidade = 'São Paulo';
+SELECT MIN(total) FROM imoveis WHERE cidade = 'Campinas';
+SELECT MIN(total) FROM imoveis WHERE cidade = 'Belo Horizonte';
+SELECT MIN(total) FROM imoveis WHERE cidade = 'Rio de Janeiro';
+SELECT MIN(total) FROM imoveis WHERE cidade = 'Porto Alegre';
+
+15. SELECT MAX(andar) FROM imoveis;

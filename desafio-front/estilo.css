@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f5f5;
+}
+
+h2 {
+  color: black;
+}
+
+.header {
+  background: #ffffff;
+  padding: 24px 0;
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12);
+ 
+}
+
+.containerCabecalho {
+  display: flex;
+  flex-direction: column;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 10px;
+}
+
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  display: flex;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu > li {
+  display: inline;
+  margin-right: 20px;
+  padding: 10px;
+}
+
+.menu > li > a {
+  color: #545454;
+  text-decoration: none;
+
+}
+
+.menu > li > a:hover {
+  color: #929292;
+  text-decoration: underline;
+}
+
+.content {
+  display:flex;
+  flex-direction: column;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 1px 24px 30px;
+  margin-top: 24px;
+  font-family: Open Sans;
+  color: #545454;
+}
+
+.content:last-child {
+  padding-bottom: 30px;
+}
+
+.center-image {
+  text-align: center;
+}
+
+.post-image {
+  padding: 6px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.post-image img {
+  display: inline-block;
+  padding: 10px;
+}
+
+.autoria {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  color: #929292;
+}
+
+.rodape {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: #FFFFFF;
+  background-color: #222222;
+  padding: 20px;
+}
+
+
+
+.container2 {
+  max-width: 380px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lateral {
+
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 10px 24px 30px;
+  margin-top: 24px;
+  height: 300px;
+  font-family: Open Sans;
+  color: #545454;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.containerMestre {
+  max-width: 1400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+input {
+  border: 1px solid #EEEEEE;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.outra {
+  display: flex;
+  justify-content: center;
+}
+
+.h3 {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+  color: #000000;
+}
+
+.linhaRosa {
+  background-color: #FE0078;
+  display: flex;
+  flex-direction: column;
+  width: 2px;
+  height: 38px;
+  margin-top: 10px;
+}
+
+.categorias {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.linhaMaisH3 {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+
+
+.menuDeCategorias {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: #545454;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.textoMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.linhaPontilhada {
+  border: 1px dashed #EEEEEE;
+  width: 240px;
+  height: 0px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.linhaMaisH3:last-child {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.publicidade {
+  width: 240px;
+  height: 120px;
+  background: #EEEEEE;
+  margin-top: 20px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 49px;
+  color: #545454;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.continuarLendo {
+  width: 154px;
+  height: 43px;
+  border: 1px solid #FE0078;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+  color: #545454;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px;
+  align-self: flex-end;
+}

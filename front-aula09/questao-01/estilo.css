@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Caveat Brush', cursive;
+  margin: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.titulo {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.bloco {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  width: 170px;
+  height: 170px;
+  margin: 16px 24px 24px 0;
+  padding-top: 65px;
+  border-radius: 4px;
+}
+
+.bloco-verde {
+  border: 6px solid green;
+}
+
+.bloco-verde:hover {
+  color: green;
+}
+
+.bloco-azul {
+  border: 6px solid blue;
+}
+
+.bloco-azul:hover {
+  color: blue;
+}
+
+.bloco-vermelho {
+  border: 6px solid red;
+}
+
+.bloco-vermelho:hover {
+  color: red;
+}
+
+.bloco-amarelo {
+  border: 6px solid yellow;
+}
+
+.bloco-amarelo:hover {
+  color: yellow;
+}
+
+.bloco-roxo {
+  border: 6px solid purple;
+}
+
+.bloco-roxo:hover {
+  color: purple;
+}

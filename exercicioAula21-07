@@ -1,0 +1,177 @@
+1. Quais gêneros distintos existem? A resposta deve ordernar pela quantidade decrescente e
+mostrar a quantidade de itens por gênero. Resposta (mostrando apenas 5 primeiros):
+
+select distinct
+	"listed_in",
+	count("listed_in")
+from netflix
+group by "listed_in"
+order by count desc limit 5;
+
+_________________________________________________________-
+2. Para os filmes, qual é a media de duração listando-os por gênero e ordenado-os pela duração de
+maneira decrescente? Dica: Utilize a função SPLIT_PART. Saiba mais sobre o SPLIT_PART aqui,
+
+select
+	avg(split_part(duration, ' ', 1)::real) as media, 
+	"listed_in"
+from netflix
+group by "listed_in"
+order by media desc limit 5;
+________________________________________________________________-
+3. Quais os gêneros listados que possuem maior quantidade de séries agrupados por ano de
+lançamento. Orderne-os pela quantidade de maneira decrescente.
+
+select
+	"release_year",
+	"listed_in",
+	count("listed_in")
+from netflix
+where "type" <> 'Movie'
+group by release_year, listed_in 
+order by count desc limit 5;
+
+_________________________________________________________________
+4. Quantas produções não foram lançadas no mesmo ano de produção? Dica: Utilize a função
+
+date_part, saiba mais sobre o date_part aqui, https://www.postgresqltutorial.com/postgresql-
+date_part/.
+
+select
+	count(date_added)
+from netflix
+	where date_part('year', date_added) <> release_year 
+____________________________________________________________________
+
+5. Quais são os cinco países mais produtores de séries sem considerar os Estados Unidos?
+
+select
+	count("country"),
+	"country",
+	"type"
+from netflix
+	where "country" <> 'United States' and
+	"type" = 'TV Show'
+	group by country, "type" 
+	order by count desc limit 5;
+__________________________________________________________________________
+
+6. Por listagem de gênero, quantas produções existem que são classificadas para jovens de 17 anos
+ou apenas adultos? Ordene-as decrescentemente. Saiba mais sobre as classificações aqui,
+
+select
+	count("rating"),
+	"listed_in",
+	"rating"
+from netflix
+	where "rating" = 'R'
+	group by "listed_in", "rating" 
+	order by count desc limit 5;
+______________________________________________________________________
+
+7. Obtenha todas as produções que tiveram Antonio Banderas como principal ator (primeiro ator da
+listagem). Qual é a quantidade de produções? Dica: Utiliza a cláusula LIKE, saiba mais sobre o
+LIKE aqui
+
+select
+	title,
+	casting
+from netflix
+	where "casting" LIKE '%Antonio Banderas%';
+__________________________________________________________________
+
+8. Busque pela listagem de todos os atores. Dica: Existe a função string_to_array que transforma
+uma string (um texto) em uma lista (array) e a função que transforma uma lista (array) em uma
+coluna. Ela funciona da seguinte maneira:
+Imagine o campo 'lista_de_empresas', um tipo de texto, contendo o valor:
+'Cubos, Sanar, Jusbrasil, B2W, Warren, Nubank'
+Poderiamos transformar esse campo TEXT em ARRAY (uma lista) da seguinte forma:
+string_to_array(lista_de_empresas, ', ').
+A primeira informação (argumento) que passamos para essa função é o texto que queremos
+quebrar, e o segundo é o delimitador, subtexto que vamos usar para quebrar
+(Não se preocupe em contar esses resultados.)
+Para transformar uma lista (array) em linhas. Podemos usar a função unnest, e ela funciona
+da seguinte maneira:
+unnest(string_to_array(lista_de_empresas, ', '))
+
+select
+	unnest(string_to_array(casting, ', ')) as atores
+from netflix;
+
+________________________________________________________________________
+
+9. Busque por todos os filmes que sejam da franquia Transformers, Star Wars, Harry Potter ou Lord
+of the Rings. Dica: utilize a cláusula LIKE
+
+select
+	"show_id",
+	"type",
+	"title"
+from netflix
+	where title like '%Transformers%' or title like '%Star Wars%' or title like '%Harry Potter%' or title like '%Lord of the Rings%';
+
+________________________________________________________________________
+
+10. Quantas séries ou filmes envolvem alguma descrição com a palavra distópica (dystopian) ou
+zumbi (zombie)? A resposta deve conter a quantidade de filmes e series em grupos separados;
+
+
+select
+	"type",
+	count("type")
+from netflix
+	where "type" = 'Movie' and description like '%dystopian%' 
+	or "type" = 'Movie' and description like '%zombie%' 
+	or "type" = 'TV Show'  and description like '%dystopian%'
+	or "type" = 'TV Show'  and description like '%zombie%'
+	group by "type";
+	
+___________________________________________________________________________
+11. Busque os anos de lançamento das 5 series com lançamento mais antigo e que não tenham sido
+produzidas nos Estados Unidos (primeira posição no campo de países) nem que o Reino Unido
+(United Kingdom) tenha participação.
+
+select
+	"release_year",
+	country,
+	"type"
+from netflix
+	where "type" <> 'Movie' and country not like '%United States%' and country not like '%United Kingdom%' 
+	order by release_year asc;
+	
+_________________________________________________________________________
+12. Quais as durações e a quantidade de filmes que se enquadram nos seguintes critérios:
+Foi adicionado na plataforma entre 2015 e 2017;
+É listado de alguma forma como documentário (Documentaries);
+Possui duração entre 90 e 100 minutos;
+A resposta deve conter a duração e a quantidade de produção para cada duração;
+Ordernar pela quantidade decrescentemente;
+
+select
+	duration,
+	count(duration)
+from netflix
+	where date_part('year', date_added )::int >= 2015 and date_part('year', date_added )::int <= 2017
+	and split_part(duration,' ',1)::int >= 90 and split_part(duration,' ',1)::int <= 100
+	and listed_in like '%Documentaries%'
+	group by duration
+	order by count desc;
+
+________________________________________________________________________________
+13. Entre os países produtores de Ficção Científica e Fantasia (Sci-Fi & Fantasy) busque aqueles que:
+não sejam os 10 maiores produtores
+não sejam de nenhuma forma vinculados aos Estados Unidos. (nenhuma produção de ficção
+científica e fantasia junto a eles)
+Sua resposta deve conter apenas 5 países com a quantidade de produção;
+
+
+select
+	country,
+	count(listed_in)
+from netflix
+	where listed_in like '%Sci-Fi & Fantasy%'
+	and country not like '%United States%'
+	group by country 
+	order by count asc limit 5;
+	
+14. 

@@ -1,0 +1,134 @@
+body {
+    background-color: #E5E5E5;
+}
+
+.card{
+    margin: auto;
+    position: center;
+    width: 600px;
+    height: 310px;
+    left: 340px;
+    top: 60px;
+    background: #C4C4C4;
+    border: 1px solid #7E8D85;
+    box-sizing: border-box;
+    border-radius: 8px;
+    
+}
+
+.linha1{
+    position: center;
+    width: 598px;
+    height: 0px;
+    border: 1px solid #4F5A51;
+    border-top: 0pt;
+    border-left: 0pt;
+    border-right: 0pt;
+    padding-bottom: 50px;
+}
+
+.linha2{
+    position: center;
+    width: 598px;
+    height: 0px;
+    border: 1px solid #4F5A51;
+    border-top: 0pt;
+    border-left: 0pt;
+    border-right: 0pt;
+    padding-bottom: 200px;
+}
+
+.time1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    padding: 20px;
+    margin-left: 85px;
+    display: inline-block;
+}
+
+.time2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    margin-left: 290px;
+    display: inline-block;
+}
+
+.placar1{
+    font-family: Michroma;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 96px;
+    line-height: 136px;
+    display: flex;
+    align-items: flex-end;
+    color: #3C493F;
+    margin-left: 30px;
+    padding-top: 10px;
+}
+
+.x{
+    font-family: Michroma;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 57px;
+    display: flex;
+    align-items: flex-end;
+    color: #3C493F;
+    margin-left: 70px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.placar2{
+    font-family: Michroma;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 96px;
+    line-height: 136px;
+    display: flex;
+    align-items: flex-end;
+    color: #3C493F;
+    margin-left: 50px;
+    padding-top: 10px;
+}
+
+.set1 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 37px;
+    display: inline;
+    align-items: center;
+    margin-left: 120px;
+}
+
+.linhaHor {
+    position: absolute;
+    width: 58px;
+    height: 0px;
+    left: 640px;
+    top: 290px;
+    border: 1px dashed #3C493F;
+    transform: rotate(90deg);
+    display: inline;
+    margin-left: 140px;
+}
+
+.set2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 37px;
+    display: inline;
+    align-items: center;
+    margin-left: 320px;
+}

@@ -1,0 +1,56 @@
+* {
+    padding: 0px;
+    margin: 0;
+}
+
+body {
+    font-size: 0;
+}
+
+.placar {
+    width: 900px;
+    background: indianred;
+    border-radius: 8px;
+    margin: 50px auto;
+}
+
+.terco {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.candidatoA, .candidatoB, .candidatoC {
+    color: white;
+    font-size: 20px;
+    padding: 20px 0;
+    box-sizing: border-box;
+    height: 60px;
+}
+
+.content {
+    box-sizing: border-box;
+    height: 360px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    padding: 105px 0;
+    font-size: 0;
+    color: white;
+}
+
+.score-a, .score-b {
+    border-right: 1px solid white;
+    font-size: 150px;
+}
+
+.score-c {
+    font-size: 150px;
+}
+
+.manchete {
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+}

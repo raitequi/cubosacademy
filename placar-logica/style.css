@@ -1,0 +1,80 @@
+* {
+    padding: 0px;
+    margin: 0;
+}
+
+body {
+    font-size: 0;
+}
+
+#info-adicional {
+    width: 900px;
+    padding: 50px;
+    background: indianred;
+    border-radius: 8px;
+    margin: 50px auto;
+    box-sizing: border-box;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+
+.placar {
+    width: 900px;
+    height: 500px;
+    background: indianred;
+    border-radius: 8px;
+    margin: 50px auto;
+}
+
+.metade {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.timeA, .timeB {
+    color: white;
+    font-size: 20px;
+    padding: 20px 0;
+    box-sizing: border-box;
+    height: 60px;
+}
+
+.content {
+    box-sizing: border-box;
+    height: 360px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    padding: 105px 0;
+    font-size: 0;
+    color: white;
+}
+
+.sets-group {
+    box-sizing: border-box;
+    height: 80px;
+    font-size: 0px;
+    color: white;
+    padding: 20px 0;
+}
+
+.score-a {
+    border-right: 1px solid white;
+    font-size: 150px;
+}
+
+.score-b {
+    font-size: 150px;
+}
+
+.set-a {
+    border-right: 1px solid white;
+    font-size: 40px;
+}
+
+.set-b {
+    border-right: 1px solid white;
+    font-size: 40px;
+}

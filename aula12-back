@@ -1,0 +1,202 @@
+1.  select purpose, avg(end_date - start_date)
+	from uber_drives
+	group by purpose ;
+
+2. select purpose, avg(miles)
+	from uber_drives
+	group by purpose ;
+
+3. select distinct category, count(category)
+	from uber_drives
+	group by category;
+
+4. select distinct "start"
+	from uber_drives
+	limit 5;
+
+5. select distinct stop
+	from uber_drives
+	limit 5;
+
+6. select distinct max(miles), min(miles)
+	from uber_drives;
+
+7a. select distinct purpose
+	from uber_drives;
+
+7b. select distinct purpose, count(purpose)
+	from uber_drives
+	group by purpose;
+
+7c. select distinct purpose, count(purpose)
+	from uber_drives
+	group by purpose
+	order by count desc;
+
+7d. select * from (
+
+select distinct purpose, count(purpose)
+	from uber_drives
+	group by purpose
+	order by count desc
+
+) as proposito
+
+where count between 100 and 170;
+
+________________________________________________________
+
+7e. select *
+from uber_drives
+where purpose in (
+
+	select purpose from (
+
+		select purpose, count(purpose)
+			from uber_drives
+			group by purpose
+			order by count desc
+
+	) as proposito
+
+	where count between 100 and 170
+
+);
+________________________________________________________
+
+7f. select count(miles) from (
+
+	select *
+	from uber_drives
+	where purpose in (
+	
+		select purpose from (
+	
+			select purpose, count(purpose)
+				from uber_drives
+				group by purpose
+				order by count desc
+	
+		) as proposito
+	
+		where count between 100 and 170
+	
+	)
+) as milhas
+
+where miles between 5 and 10;
+
+________________________________________________________
+
+7g. select * from (
+
+		select * from (
+		
+			select *
+			from uber_drives
+			where purpose in (
+			
+				select purpose from (
+			
+					select purpose, count(purpose)
+						from uber_drives
+						group by purpose
+						order by count desc
+			
+				) as proposito
+			
+				where count between 100 and 170
+			
+			)
+		) as milhas
+		
+		where miles between 5 and 10
+	
+	) as tabela
+	
+where date_part('hour', end_date - start_date) <= 1;
+
+________________________________________________________
+
+7h. select * from (
+
+select * from (
+
+		select * from (
+		
+			select *
+			from uber_drives
+			where purpose in (
+			
+				select purpose from (
+			
+					select purpose, count(purpose)
+						from uber_drives
+						group by purpose
+						order by count desc
+			
+				) as proposito
+			
+				where count between 100 and 170
+			
+			)
+		) as milhas
+		
+		where miles between 5 and 10
+	
+	) as tabela
+	
+where date_part('hour', end_date - start_date) <= 1
+
+) as we4iufgb34qifb
+
+where "start" <> 'Unknown Location' and "stop" <> 'Unknown Location' and "start" <> "stop";
+
+________________________________________________________
+
+7i. select * from (
+
+select * from (
+
+select * from (
+
+select * from (
+
+		select * from (
+		
+			select *
+			from uber_drives
+			where purpose in (
+			
+				select purpose from (
+			
+					select purpose, count(purpose)
+						from uber_drives
+						group by purpose
+						order by count desc
+			
+				) as proposito
+			
+				where count between 100 and 170
+			
+			)
+		) as milhas
+		
+		where miles between 5 and 10
+	
+	) as tabela
+	
+where date_part('hour', end_date - start_date) <= 1
+
+) as we4iufgb34qifb
+
+where "start" <> 'Unknown Location' and "stop" <> 'Unknown Location' and "start" <> "stop"
+
+) as iu3bgjhrf3i9
+
+where start_date between '2016-03-01' and '2016-03-15'
+
+) as ur389hf2
+
+order by miles desc
+limit 1;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="tamanhoFonte">
+    Fonte
+</div>
+
+<button class="aumenta">Aumentar</button>
+<button class="diminui">Diminuir</button>
+
+<script>
+
+    const nome = prompt("Qual seu nome?")
+    alert("Muito prazer em conhecer, " +nome+ "!")
+    const bebida = confirm(nome+ ", gostaria de uma bebida?")
+
+
+    const botaoAumenta = document.querySelector("aumenta");
+    botaoAumenta.addEventListener("click", () => {
+        tamanhoFonte.style.fontSize = "larger"
+    })
+
+    const botaoDiminui = document.querySelector("diminui");
+    botaoDiminui.addEventListener("click", () => {
+        tamanhoFonte.style.fontSize = "smaller"
+    })
+
+
+
+</script>
+    
+</body>
+</html>

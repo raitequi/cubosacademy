@@ -1,0 +1,249 @@
+1. select distinct category, count(honor) from times
+	group by category 
+	order by count(honor) desc
+	limit 5;
+
+2. select  * from (
+
+select distinct category, count(honor) from times
+	group by category
+	order by count(honor) desc
+	
+	) as tabela
+	
+where tabela.count <= 6 and tabela.count >= 3;
+
+3. select * from times
+	where category in (
+	
+	select category from (
+
+		select distinct category, count(honor) from times
+			group by category
+			order by count(honor) desc
+			
+			) as tabela
+	
+	where tabela.count between 3 and 6
+	order by count desc
+	limit 2
+	
+);
+
+_______________________________________________________________________________________
+
+1a. 	select birth_country, count from (
+
+		select distinct birth_country, count(birth_country) from nobel
+			group by birth_country 
+			order by count desc
+			
+			) as tabela
+	
+	where tabela.count between 10 and 50
+	order by count desc;
+
+
+1b. 	select prize_share, count from (
+
+		select distinct prize_share, count(prize_share) from nobel
+			group by prize_share
+			order by count desc
+			
+			) as tabela
+
+	order by count asc;
+
+1c. select full_name, category, "year" from nobel
+	where prize_share in (
+
+		select prize_share from (
+	
+			select distinct prize_share, count(prize_share) from nobel
+				group by prize_share
+				order by count desc
+				
+				) as tabela
+		
+		where tabela.count <=65
+		order by tabela.count asc
+
+)
+limit 5;
+
+1d. select category, count(category) from nobel
+	where prize_share in (
+
+		select prize_share from (
+	
+			select distinct prize_share, count(prize_share) from nobel
+				group by prize_share
+				order by count desc
+				
+				) as tabela
+		
+		where tabela.count <=65
+		order by tabela.count asc
+
+)
+group by category
+order by count desc;
+
+1e. select * from (
+
+	select category, count(category) from nobel
+		where prize_share in (
+	
+			select prize_share from (
+		
+				select distinct prize_share, count(prize_share) from nobel
+					group by prize_share
+					order by count desc
+					
+					) as tabela
+			
+			where tabela.count <=65
+			order by tabela.count asc
+	
+	)
+	group by category
+	order by count desc
+	
+) as tabelona
+where count > 30;
+
+___________________________________________________________________________________
+
+2a. select distinct unnest, count(unnest) from (
+ select distinct "name", unnest(string_to_array("name", ' ')) from cervejarias
+ 	) as tabela
+group by unnest
+order by count desc
+limit 4;
+
+2b. select distinct unnest, count(unnest) from (
+ select distinct "name", unnest(string_to_array("name", ' ')) from cervejas
+ 	) as tabela
+group by unnest
+order by count desc
+limit 5;
+
+2c. select count(count) from
+
+(
+
+select distinct unnest, count(unnest) from (
+ select distinct "name", unnest(string_to_array("name", ' ')) from cervejarias
+ 	) as tabela
+group by unnest
+order by count asc
+
+
+) as tabelao
+where count = 1;
+
+2d. select count(count) from
+
+(
+
+select distinct unnest, count(unnest) from (
+ select distinct "name", unnest(string_to_array("name", ' ')) from cervejas
+ 	) as tabela
+group by unnest
+order by count asc
+
+
+) as tabelao
+where count = 1;
+
+
+2e. 
+select cervejas.name, cervejarias.name from cervejas
+	inner join cervejarias
+		on cervejas.brewery_id = cervejarias.id;
+
+__________________________________________________________________________
+
+3a. select * from (
+
+	select distinct unnest(string_to_array(casting, ', ')) as actors from netflix
+	
+	) as participacoes
+
+;
+
+3b. select distinct actors, count(actors) from (
+
+	select unnest(string_to_array(casting, ', ')) as actors from netflix
+	
+	) as participacoes
+	
+group by actors
+order by count desc
+;
+
+3c. select distinct actors, count(actors) from (
+
+	select unnest(string_to_array(casting, ', ')) as actors from netflix
+	
+	) as participacoes
+	
+group by actors
+order by count desc
+limit 10
+;
+
+3d. select * from (
+
+select * from
+
+(
+
+select distinct actors, count(actors) from (
+
+	select unnest(string_to_array(casting, ', ')) as actors from netflix
+	
+	) as participacoes
+
+group by actors
+order by count desc
+
+) as naoacabanunca
+
+where "count" between 10 and 30
+
+) as infinito
+
+where "count" not between 15 and 20
+
+;
+
+3e. select * from
+
+(
+
+select distinct actors, country, count(actors) from (
+
+	select country, unnest(string_to_array(casting, ', ')) as actors from netflix
+	
+	) as participacoes
+
+group by actors, country
+order by count desc
+
+) as naoacabanunca
+
+where country <> 'India' and count > 10
+
+;
+
+3f. select * from (
+
+
+select distinct unnest(string_to_array(director, ', ')) as diretor, unnest(string_to_array(casting, ', ')) as atores from netflix
+	
+) as tabela
+
+where diretor = atores;
+
+

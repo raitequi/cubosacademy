@@ -1,0 +1,72 @@
+1. Busque pela média de notas e a quantidade de estudantes para as estudantes de gênero feminino
+que fazem parte do grupo étnico A ou C e que pelo menos obtiveram 60 em score de escrita.
+
+select 
+    avg("math score"::integer),
+    avg("reading score"::integer),
+    avg("writing score"::integer),
+    count(grades.*)
+from grades
+where gender = 'female' 
+and ("race/ethnicity" = 'group A' or "race/ethnicity" = 'group C')
+and "writing score"::integer >= 60;
+____________________________________________________________--
+
+2. Encontre a quantidade de alunos e a nota máxima alcançada em matemática por nível educacional
+dos pais, estes alunos devem possuir nota maior que 75 no score de matemática e ter completado o
+exame preparatório.
+
+
+select 
+    count("parental level of education") as quantidade,
+    max("math score")
+from grades
+where "test preparation course" = 'completed' 
+and "math score"::integer > 75
+group by "parental level of education";
+_______________________________________________________________
+
+3. Quem são as/os 10 melhores estudantes de escrita que não tiveram curso prepraratório, possuem
+pais com ensino superior incompleto ou ensino médio incompleto e não possuem desconto no
+almoço. A lista dos alunos deve conter seu gênero e seu grupo étnico e suas notas. Neste caso,
+matemática têm prioridade sobre leitura, e leitura sobre escrita.
+
+select 
+	gender as Gênero, "race/ethnicity" as GrupoEtnico, 
+    "writing score"::INTEGER,
+    "math score"::INTEGER,
+	"reading score"::INTEGER
+from grades
+where "test preparation course" = 'none' 
+and ("parental level of education" = 'some high school' or "parental level of education" = 'some college')
+and lunch = 'standard'
+order by "writing score" desc, "reading score" desc, "math score" desc limit 10;
+
+__________________________________________________________________
+
+4. Nas restrições do exercício 3: Qual é a quantidade de estudantes que tiraram acima de 80 em todos
+os scores, que também tiveram desconto no almoço e seus pais possuam algum tipo de graduação
+superior completa e fizeram curso preparatório?
+
+select 
+	count(grades.*)
+from grades
+where "test preparation course" = 'completed' 
+and ("parental level of education" = 'bachelor degree' or "parental level of education" = 'associate degree' or "parental level of education" = 'masters degree' or "parental level of education" = 'some high school' or "parental level of education" = 'some college')
+and ("reading score"::integer > 80 and "writing score"::integer > 80 and "math score"::integer > 80)
+and (lunch = 'free/reduced' or lunch = 'standard');
+
+________________________________________________________________________
+
+5. Nas restrições do exercício 3: Qual é a quantidade de estudantes que tiraram acima de 80 em todos
+os scores, que não tiveram desconto no almoço e seus pais possuam algum tipo de graduação
+superior completa e fizeram curso preparatório? 
+
+
+select 
+	count(grades.*)
+from grades
+where "test preparation course" = 'completed' 
+and ("parental level of education" = 'bachelor degree' or "parental level of education" = 'associate degree' or "parental level of education" = 'masters degree' or "parental level of education" = 'some high school' or "parental level of education" = 'some college')
+and ("reading score"::integer > 80 and "writing score"::integer > 80 and "math score"::integer > 80)
+and (lunch = 'free/reduced' or lunch = 'standard');

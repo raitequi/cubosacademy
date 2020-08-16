@@ -1,0 +1,256 @@
+Questão 1. Dada uma determinada lutadora de UFC, faça um programa que determine a qual categoria
+da competição ele pertence.
+
+const lutadora = {
+nome: "Amanda Nunes",
+massa: 61, //em kg
+altura: 173, //em cm
+arteMarcial: "Jiu-jitsu",
+genero: "F"
+};
+
+switch (true) {
+  case (lutadora.massa <=52.2):
+    console.log("A lutadora é peso palha");
+    break;
+  case (lutadora.massa >52.2 && lutadora.massa <=56.7):
+    console.log("A lutadora é peso mosca");
+    break;
+  case (lutadora.massa >56.7 && lutadora.massa <=61.2):
+    console.log("A lutadora é peso galo");
+    break;
+  case (lutadora.massa >61.2 && lutadora.massa <=65.8):
+    console.log("A lutadora é peso pena");
+    break;
+  case (lutadora.massa >65.8 && lutadora.massa <=70.3):
+    console.log("A lutadora é peso leve");
+    break;
+  case (lutadora.massa >70.3 && lutadora.massa <=77.1):
+    console.log("A lutadora é peso meio-médio");
+    break;
+  case (lutadora.massa >77.1 && lutadora.massa <=83.9):
+    console.log("A lutadora é peso médio");
+    break;
+  case (lutadora.massa >83.9 && lutadora.massa <=93):
+    console.log("A lutadora é peso meio-pesado");
+    break;
+  case (lutadora.massa >93 && lutadora.massa <=120.2):
+    console.log("A lutadora é peso pesado");
+    break;
+}
+
+2. Questão 2. O índice de massa corporal (IMC) é uma medida internacional usada para calcular se uma
+pessoa está no peso ideal. O IMC é a razão entre a massa de uma pessoa, em quilogramas e o quadrado
+da sua altura, em metros. Faça um programa que imprima na tela o IMC de uma pessoa, cujo objeto
+representativo segue o seguinte modelo:
+
+Questão 3. Com base na questão anterior, avalie a pessoa de acordo com a tabela abaixo e o IMC dela e
+imprima a classificação dela na tela.
+
+
+const pessoa = {
+nome: "Jose",
+massa: 60, //em kg
+altura: 1.73 //em metros
+}
+imc = pessoa.massa / (pessoa.altura*pessoa.altura)
+console.log("O IMC é "+ imc);
+
+switch (true) {
+  case (imc <18.5):
+    console.log("Magreza");
+    break;
+  case (imc >=18.5 && imc <=24.9):
+    console.log("Peso Normal");
+    break;
+  case (imc >=25 && imc <=29.9):
+    console.log("Sobrepeso");
+    break;
+  case (imc >=30 && imc <=39.9):
+    console.log("Obesidade");
+    break;
+  case (imc >=40):
+    console.log("Obesidade grave");
+    break;
+}
+
+4. Uma equação de segundo grau possui sempre 3 coeficientes: A, B e C. Para saber se a
+equação possui raízes reais, calcula-se o valor de delta. Com o valor de delta é possível descobrir se a
+equação:
+Não possui raízes reais, caso delta seja negativo
+Possui duas raízes reais e iguais, caso delta seja zero.
+Possui duas raízes reais e distintas, caso delta seja positivo
+Quando delta é positivo, é possível calcular suas raízes reais. As fórmulas para cálculo de delta e das
+raízes (x) seguem abaixo.
+
+const equacao1 = {
+a: 1,
+b: -5,
+c: 6
+}; // 2 raízes distintas: 2 e 3
+const equacao2 = {
+a: 1,
+b: -4,
+c: 4
+} // 2 raízes iguais a 2
+const equacao3 = {
+a: 1,
+b: 0,
+c: 4
+}
+
+//equacao1
+
+delta1 = (equacao1.b*equacao1.b) - (4 * (equacao1.a*equacao1.c))
+
+if (delta1 < 0) {
+  console.log("A equação 1 não possui raízes reais")
+}
+
+if (delta1 == 0) {
+  console.log("A equação 1 possui duas raízes reais e iguais")
+}
+
+if (delta1 > 0) {
+  console.log("A equação 1 possui duas raízes reais e distintas")
+}
+
+//equacao2
+
+delta2 = (equacao2.b*equacao2.b) - (4 * (equacao2.a*equacao2.c))
+
+if (delta2 < 0) {
+  console.log("A equação 2 não possui raízes reais")
+}
+
+if (delta2 == 0) {
+  console.log("A equação 2 possui duas raízes reais e iguais")
+}
+
+if (delta2 > 0) {
+  console.log("A equação 2 possui duas raízes reais e distintas")
+}
+
+//equacao3
+
+delta3 = (equacao3.b*equacao3.b) - (4 * (equacao3.a*equacao3.c))
+
+if (delta3 < 0) {
+  console.log("A equação 3 não possui raízes reais")
+}
+
+if (delta3 == 0) {
+  console.log("A equação 3 possui duas raízes reais e iguais")
+}
+
+if (delta3 > 0) {
+  console.log("A equação 3 possui duas raízes reais e distintas")
+}
+
+5. Dadas as medidas dos 3 lados de um possível triângulo é possível descobrir se de fato é
+possível fazer um triângulo com essas medidas. Isso é chamado de condição de existência de um
+triângulo. Um triângulo pode existir apenas quando o seu maior lado é menor que a soma de seus dois
+outros lados. Faça um programa que descubra se um possível triângulo existe ou não. Seguem alguns
+casos de teste:
+
+
+const triangulo1 = {
+a: 1,
+b: 2,
+c: 3
+};
+const triangulo2 = {
+a: 3,
+b: 5,
+c: 4
+};
+const triangulo3 = {
+a: 12,
+b: 2,
+c: 13
+};
+
+if (triangulo1.c < (triangulo1.a + triangulo1.b)) {
+  console.log("O triângulo 1 existe")
+} else {
+  console.log("O triângulo 1 não existe")
+}
+
+if (triangulo2.b < (triangulo2.a + triangulo2.c)) {
+  console.log("O triângulo 2 existe")
+} else {
+  console.log("O triângulo 2 não existe")
+}
+
+if (triangulo3.c < (triangulo3.a + triangulo3.b)) {
+  console.log("O triângulo 3 existe")
+} else {
+  console.log("O triângulo 3 não existe")
+}
+
+6. Levando em consideração a questão cinco, classifique o triângulo dado em cada uma das
+categorias abaixo
+
+
+const triangulo1 = {
+a: 1,
+b: 2,
+c: 3
+};
+const triangulo2 = {
+a: 2,
+b: 3,
+c: 2
+};
+const triangulo3 = {
+a: 12,
+b: 2,
+c: 13
+};
+
+if (triangulo1.c < (triangulo1.a + triangulo1.b)) {
+  console.log("O triângulo 1 existe")
+  if (triangulo1.a == triangulo1.b && triangulo1.a == triangulo1.c) {
+      console.log("O triângulo 1 é equilátero")
+  }
+  if (triangulo1.a == triangulo1.b && triangulo1.a != triangulo1.c || triangulo1.a == triangulo1.c && triangulo1.a != triangulo1.b) {
+      console.log("O triângulo 1 é isósceles")
+  }
+  if (triangulo1.a != triangulo1.b && triangulo1.a != triangulo1.c) {
+      console.log("O triângulo 1 é escaleno")
+  }
+} else {
+  console.log("O triângulo 1 não existe")
+}
+
+if (triangulo2.b < (triangulo2.a + triangulo2.c)) {
+  console.log("O triângulo 2 existe")
+  if (triangulo2.a == triangulo2.b && triangulo2.a == triangulo2.c) {
+      console.log("O triângulo 2 é equilátero")
+  }
+  if (triangulo2.a == triangulo2.b && triangulo2.a != triangulo2.c || triangulo2.a == triangulo2.c && triangulo2.a != triangulo2.b) {
+      console.log("O triângulo 2 é isósceles")
+  }
+  if (triangulo2.a != triangulo2.b && triangulo2.a != triangulo2.c) {
+      console.log("O triângulo 2 é escaleno")
+  }
+} else {
+  console.log("O triângulo 2 não existe")
+}
+
+if (triangulo3.c < (triangulo3.a + triangulo3.b)) {
+  console.log("O triângulo 3 existe")
+  if (triangulo3.a == triangulo3.b && triangulo3.a == triangulo3.c) {
+      console.log("O triângulo 3 é equilátero")
+  }
+  if (triangulo3.a == triangulo3.b && triangulo3.a != triangulo3.c || triangulo3.a == triangulo3.c && triangulo3.a != triangulo3.b) {
+      console.log("O triângulo 3 é isósceles")
+  }
+  if (triangulo3.a != triangulo3.b && triangulo3.a != triangulo3.c) {
+      console.log("O triângulo 3 é escaleno")
+  }
+} else {
+  console.log("O triângulo 3 não existe")
+}
+
+

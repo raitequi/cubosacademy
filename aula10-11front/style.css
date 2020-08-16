@@ -1,0 +1,77 @@
+.cabecalho{
+    background-color: #caefff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+a {
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid #7E8D85;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 8px 16px;
+    background-color: white;
+}
+
+.menu1 {
+
+}
+
+.cards .card .cabecalho {
+    background-color: #caefff;
+}
+
+.conteudo {
+    display: block;
+    box-sizing: border-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-family: sans-serif;
+}
+
+.cards {
+    align-content: flex-start;
+    box-sizing: border-box;
+    display:flex;
+    flex-wrap: wrap;
+    font-family: sans-serif;
+    flex-direction: row;
+}
+
+.card {
+    background-color: rgb(243, 243, 243);
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 1;
+    font-family: sans-serif;
+    margin: 16px;
+    padding: 16px;
+}
+
+.rodape {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    font-family: sans-serif;
+}
+
+.conteudo .card h2 {
+    color: #e21f60;
+}
+
+.conteudo .card .cabecalho {
+    background-color: transparent;
+}
+
+body > .rodape {
+    background-color: #009ee2;
+    color: white;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    text-align: justify;
+}
