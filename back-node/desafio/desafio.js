@@ -1,3 +1,4 @@
+ 
 const koa = require("koa")
 const bodyparser = require("koa-bodyparser")
 
@@ -5,318 +6,420 @@ const server = new koa()
 
 server.use(bodyparser())
 
-const produtos = [
-    {
+const formatarReqSucesso = (ctx, dados, status=200) => {
+    ctx.status = status
+    ctx.body = {
+        status: 'sucesso',
+        dados: dados
+    }
+}
+
+const formatarReqErro = (ctx, mensagem, status=404) => {
+    ctx.status = status
+    ctx.body = {
+        status: 'erro',
+        dados: {
+            mensagem: mensagem
+        }
+    }
+}
+
+
+const produto = {
+    id: 1,
+    nome: 'Monitor 22"',
+    quantidade: 3,
+    valor: 50000,
+    deletado: false
+}
+
+const estoque = {
+    idProduto: 1,
+    quantidade: produto.id.quantidade
+}
+
+const pedido = {
+    id: 1,
+    produtos: [{
         id: 1,
-        nome: "Monitor 22 polegadas",
-        quantidade: 10,
-        valor: 30000, //valor em centavos, 300 reais
+        nome: 'Monitor 22"',
+        quantidade: 1,
+        valor: 50000
+    }],
+    estado: 'incompleto',
+    idCliente: 1,
+    valorTotal: 0, //resultadoFuncao
+    deletado: false
+}
+
+const listaProdutos = []
+listaProdutos.push(produto)
+
+const listaPedidos = []
+listaPedidos.push(pedido)
+
+const obterProdutos = () => {
+    return listaProdutos.filter((produto) => !produto.deletado && produto.quantidade > 0)
+}
+
+const addProduto = (ctx) => {
+    const body = ctx.request.body
+
+    if (!body.nome || !body.quantidade || !body.valor) {
+        formatarReqErro(ctx, 'Pedido mal-formatado!!', 400)
+        return
+    }
+    const produto = {
+        id: listaProdutos.length +1,
+        nome: body.nome,
+        quantidade: body.quantidade,
+        valor: body.valor,
         deletado: false
-    },
-    {
-        id: 2,
-        nome: "Teclado/mouse sem fio",
-        quantidade: 8,
-        valor: 15000,
+    }
+
+    listaProdutos.push(produto)
+    return produto
+}
+
+const atualizarProduto = (ctx) => {
+    const id = ctx.url.split('/')[2]
+    const body = ctx.request.body
+
+    if (!body.nome && !body.quantidade && !body.valor) {
+        formatarReqErro(ctx, 'Pedido mal formatado!!!', 400)
+    }
+
+    if (id) {
+        const produtoAtual = listaProdutos[id -1]
+        if (produtoAtual) {
+            const produtoAtualizado = {
+                id: Number(id),
+                nome: body.nome ? body.nome : produtoAtual.nome,
+                quantidade: body.quantidade ? body.quantidade: produtoAtual.quantidade,
+                valor: body.valor ? body.valor : produtoAtual.valor
+            }
+            listaProdutos[id -1] = produtoAtualizado
+            return produtoAtualizado
+        }
+        
+    } else {
+        formatarReqErro(ctx, 'Pedido mal formatado!!!', 400)
+    }
+}
+
+
+const deletarProduto = (ctx) => {
+    const id = ctx.url.split('/')[2]
+    const body = ctx.request.body
+
+    if (typeof body.estado !== 'boolean') {
+       formatarReqErro(ctx, 'Pedido mal-formatado!', 400)
+    }
+
+    if (id) {
+        const produtoAtual = listaProdutos[id -1]
+        if (produtoAtual) {
+            if (body.estado === true) { //&& obterPostsDoAutor(id).length > 0
+                formatarReqErro(ctx, 'Ação proibida', 403)
+                return
+            }
+            const produtoAtualizado = {
+                id: produtoAtual.id,
+                nome: produtoAtual.nome,
+                quantidade: produtoAtual.quantidade,
+                valor: produtoAtual.valor,
+                deletado: body.estado
+            }
+            listaProdutos[id -1] = produtoAtualizado
+            return produtoAtualizado
+        }
+    }
+}
+
+const adicionarProdutoNoPedido = (ctx, produto, id_pedido) => {
+    const produtoAtual = listaProdutos[produto.id -1]
+    if (produtoAtual) {
+        if (produtoAtual.quantidade >= produto.quantidade) {
+            listaProdutos[produto.id - 1].quantidade -= produto.quantidade
+            const pedidoAtual = pedidos(id_pedido - 1)
+            if (pedidoAtual) {
+                const produtoJaExiste = pedidoAtual.listaProdutos.filter(product => product.id === produto.id)
+                if (produtoJaExiste) {
+                    for(i=0; i < pedidoAtual.produtos;i++) {
+                        if (pedidoAtual.produtos[i].id === produto.id) {
+                            pedidoAtual.splice(i, 1, {
+                            nome: produto.nome,
+                            id: produto.id,
+                            quantidade: pedidoAtual.produtos[i].quantidade + produto.quantidade
+                        })
+                    }
+                }
+            }
+            } else {
+                pedidoAtual.listaProdutos.push(produto)
+            } 
+        }
+    }
+    pedidoAtual.valor_total += produto.valor * produto.quantidade
+    listaPedidos[pedidoAtual.id - 1] = pedidoAtual
+    return pedidoAtual
+}
+
+const obterPedidos = () => {
+    return listaPedidos.filter((pedido) => !pedido.deletado)
+}
+
+const obterPedidosEntregues = () => {
+    return listaPedidos.filter((pedido) => pedido.estado === 'entregue')
+}
+
+const obterPedidosPagos = () => {
+    return listaPedidos.filter((pedido) => pedido.estado === 'pago')
+}
+
+const obterPedidosProcessando = () => {
+    return listaPedidos.filter((pedido) => pedido.estado === 'processando')
+}
+
+const obterPedidosCancelados = () => {
+    return listaPedidos.filter((pedido) => pedido.estado === 'cancelado')
+}
+
+
+const addPedido = (ctx) => {
+    const body = ctx.request.body
+
+    if (!body.produtos || !body.estado || !body.valorTotal || !body.idCliente) {
+        formatarReqErro(ctx, 'Pedido mal-formatado!!', 400)
+        //return
+    } else if (listaProdutos[body.idCliente -1].deletado === true) {
+        formatarReqErro(ctx, 'Ação proibida', 403)
+        return
+    }
+    const pedido = {
+        id: listaPedidos.length +1,
+        produtos: body.produtos,
+        estado: body.estado,
+        idCliente: body.idCliente,
+        valorTotal: body.valorTotal,
         deletado: false
-    },
-    {
-        id: 3,
-        nome: "Cabo HDMI-HDMI",
-        quantidade: 5,
-        valor: 5000,
-        deletado: false
-    },
-    {
-        id: 4,
-        nome: "Adaptador Wi-fi USB",
-        quantidade: 10,
-        valor: 6000,
-        deletado: false
     }
-]
 
-const obterListaProdutos = () => {
-    const listaProdutosSemDeletados = []
-    produtos.forEach(produto => {
-        if (produto.deletado === false) {
-            listaProdutosSemDeletados.push(produto)
-        }
-    })
-    return listaProdutosSemDeletados
+    listaPedidos.push(pedido)
+    return pedido
 }
 
-const obterProduto = (indice) => {
-    const produto = produtos[indice]
-    if (produto) {
-        return produto
+const deletarPedido = (ctx) => {
+    const id = ctx.url.split('/')[2]
+    const body = ctx.request.body
+
+    if (typeof body.estado !== 'boolean') {
+       formatarReqErro(ctx, 'Pedido mal-formatado!', 400)
+    }
+    if (id) {
+        const pedidoAtual = listaPedidos[id -1]
+        if (pedidoAtual) {
+            const pedidoAtualizado = {
+                id: pedidoAtual.id,
+                produtos: pedidoAtual.produtos,
+                estado: pedidoAtual.estado,
+                idCliente: pedidoAtual.idCliente,
+                valorTotal: pedidoAtual.valorTotal,
+                deletado: body.estado
+            }
+            listaPedidos[id -1] = pedidoAtualizado
+            return pedidoAtualizado
+        }
+    }
+}
+
+const atualizarPedido = (ctx) => {
+    const id = ctx.url.split('/')[2]
+    const body = ctx.request.body
+
+    if (!body.produtos && !body.estado && !body.valorTotal || typeof body.deletado !== 'boolean') {
+        formatarReqErro(ctx, 'Pedido mal formatado!!!', 400)
+    }
+
+    if (id) {
+        const pedidoAtual = listaPedidos[id -1]
+        if (pedidoAtual) {
+            const pedidoAtualizado = {
+                id: Number(id),
+                produtos: body.produtos ? body.produtos : pedidoAtual.produtos,
+                estado: body.estado ? body.estado : pedidoAtual.estado,
+                idCliente: pedidoAtual.idCliente,
+                valorTotal: body.valorTotal ? body.valorTotal : pedidoAtual.valorTotal,
+                deletado: pedidoAtual.deletado,
+            }
+            listaPedidos[id -1] = pedidoAtualizado
+            return pedidoAtualizado
+        }
+        
     } else {
-        return null
+        formatarReqErro(ctx, 'Pedido mal formatado!!!', 400)
     }
 }
 
-const addProduto = (produto) => {
-    const novoProduto = {
-        "id": produtos.length++,
-        "nome": produto.nome ? produto.nome : '',
-        "quantidade": produto.quantidade ? produto.quantidade : '',
-        "valor": produto.valor ? produto.valor : '',
-        "deletado": false,
+const rotasProdutos = (ctx, diretorio) => {
+    switch (ctx.method) {
+        case 'GET':
+            const id = diretorio[2]
+            if (id) {
+                if (listaProdutos[id -1]) {
+                    formatarReqSucesso(ctx, listaProdutos[id -1])
+                } else {
+                    formatarReqErro(ctx, 'Produto não encontrado!!', 404)
+                }
+            } else {
+                formatarReqSucesso(ctx, obterProdutos())
+            }
+            break
+        case 'POST':
+            const produtoAdicionado = addProduto(ctx)
+            if (produtoAdicionado) {
+                formatarReqSucesso(ctx, produto, 201)
+            }
+            break
+        case 'PUT':
+            const produtoAtualizado = atualizarProduto(ctx)
+            if (produtoAtualizado) {
+                formatarReqSucesso(ctx, produto, 200)
+            }
+            break            
+        case 'DELETE':
+            const produtoDeletado = deletarProduto(ctx)
+            if (produtoDeletado) {
+                formatarReqSucesso(ctx, { mensagem: "Produto deletado!" }, 200)
+            }
+            break
+        default:
+            //erro
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
-    produtos.push(novoProduto)
-    return novoProduto
-}
-
-const atualizarProduto = (indice) => {
-    const produto = obterProduto(indice)
-    const produtoAtualizado = {
-        id: produto.id,
-        nome: produto.nome,
-        quantidade: produto.quantidade,
-        valor: produto.valor,
-        deletado: produto.deletado
+ }
+ const rotasPedidos = (ctx, diretorio) => {
+    switch (ctx.method) {
+        case 'GET':
+            const id = diretorio[2]
+            if (id) {
+                if (listaPedidos[id -1]) {
+                    formatarReqSucesso(ctx, listaPedidos[id -1])
+                } else {
+                    formatarReqErro(ctx, 'Pedido não encontrado!!', 404)
+                }
+            } else {
+                formatarReqSucesso(ctx, obterPedidos())
+            }
+            break
+        case 'POST':
+            const pedidoAdicionado = addPedido(ctx)
+            if (pedidoAdicionado) {
+                formatarReqSucesso(ctx, pedidoAdicionado, 201)
+            }
+            break
+        case 'PUT':
+            const pedidoAtualizado = atualizarPedido(ctx)
+            const produtoAoPedido = adicionarProdutoNoPedido(ctx) //<==============
+            if (pedidoAtualizado) {
+                formatarReqSucesso(ctx, pedidoAtualizado, 200)
+            } else if (produtoAoPedido) {
+                formatarReqSucesso(ctx, produtoAoPedido, 200)
+            }
+            break            
+        case 'DELETE':
+            const pedidoDeletado = deletarPedido(ctx)
+            if (pedidoDeletado) {
+                formatarReqSucesso(ctx, { mensagem: "Pedido deletado!" }, 200)
+            }
+            break
+        default:
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
+ }
 
-const delProduto = (indice) => {
-    const produto = obterProduto(indice)
-    if (produto) {
-       produtos.splice(indice, 1)
-       return true
+const rotas = (ctx) => {
+    const diretorio = ctx.url.split("/")
+
+    if (diretorio[1] === 'products') {
+        rotasProdutos(ctx, diretorio)
+    } else if (diretorio[1] === 'orders') {
+        rotasPedidos(ctx, diretorio)
+        rotasStatus(ctx, diretorio) //aqui <==========================
     } else {
-        return false
+       formatarReqErro(ctx, 'Conteúdo não encontrado!!', 404)
     }
 }
 
-//falta função para alterar quantidade disponivel de produtos
+const rotasStatus = (ctx) => {
+    const diretorio = ctx.url.split("/")
 
-const pedidos = [
-    {
-        id: 1,
-        produtosPedido: produtos[1, 2],
-        estado: "incompleto",
-        idCliente: 1001,
-        deletado: false,
-        valorTotal: produtos[1].valor + produtos[2].valor
-    },
-    {
-        id: 2,
-        produtosPedido: produtos[0, 1],
-        estado: "incompleto",
-        idCliente: 1002,
-        deletado: false,
-        valorTotal: produtos[0].valor + produtos[1].valor
-    },
-    {
-        id: 3,
-        produtosPedido: produtos[0, 3],
-        estado: "incompleto",
-        idCliente: 1003,
-        deletado: false,
-        valorTotal: produtos[0].valor + produtos[3].valor
-    },
-    {
-        id: 4,
-        produtosPedido: produtos[2, 3],
-        estado: "incompleto",
-        idCliente: 1004,
-        deletado: false,
-        valorTotal: produtos[2].valor + produtos[3].valor
-    }
-]
-
-const obterListaPedidos = () => {
-    const listaPedidosSemDeletados = []
-    pedidos.forEach(pedido => {
-        if (pedido.deletado === false) {
-            listaPedidosSemDeletados.push(pedido)
+    if (diretorio[1] === 'orders') {
+        if (diretorio[2] === 'entregues') {
+            rotaStatusEntregue(ctx, diretorio)
         }
-    })
-    return listaPedidosSemDeletados
-}
-
-const obterListaPedidosEntregues = () => {
-    const listaPedidosEntregues = []
-    pedidos.forEach(pedido => {
-        if (pedido.estado === "entregue") {
-            listaPedidosEntregues.push(pedido)
+        if (diretorio[2] === 'pagos') {
+            rotaStatusPago(ctx, diretorio)
         }
-    })
-    return listaPedidosEntregues
-}
-
-const obterListaPedidosPagos = () => {
-    const listaPedidosPagos = []
-    pedidos.forEach(pedido => {
-        if (pedido.estado === "pago") {
-            listaPedidosPagos.push(pedido)
+        if (diretorio[2] === 'processando') {
+            rotaStatusProcessando(ctx, diretorio)
         }
-    })
-    return listaPedidosPagos
-}
-
-const obterListaPedidosProcessando = () => {
-    const listaPedidosProcessando = []
-    pedidos.forEach(pedido => {
-        if (pedido.estado === "processando") {
-            listaPedidosProcessando.push(pedido)
+        if (diretorio[2] === 'cancelados') {
+            rotaStatusCancelado(ctx, diretorio)
         }
-    })
-    return listaPedidosProcessando
-}
-
-const obterListaPedidosCancelados = () => {
-    const listaPedidosCancelados = []
-    pedidos.forEach(pedido => {
-        if (pedido.estado === "cancelados") {
-            listaPedidosCancelados.push(pedido)
-        }
-    })
-    return listaPedidosCancelados
-}
-
-const obterListaPedidosPorID = () => {
-    const listaPedidosPorID = []
-    let indice = -1
-    if (ctx.url.includes("/pedidos/")) {
-        const quebra = ctx.url.split("/")
-        if (quebra[1] === "pedidos") {
-            indice = quebra[2]
-        }
-    }
-    pedidos.forEach(pedido => {
-        if (pedido.id === indice) {
-            listaPedidosPorID.push(pedido)
-        }
-    })
-    return listaPedidosPorID
-}
-
-// falta funções para adicionar, remover e alterar quantidade de produtos da lista de pedidos
-
-const cancelarPedido = (indice) => {
-    const listaPedidosCancelados = []
-    const pedido = obterListaPedidos(indice)
-    if (pedido.cancelado === true) {
-       pedidos.splice(indice, 1)
-       listaPedidosCancelados.push(pedido)
-       return true
     } else {
-        return false
+       formatarReqErro(ctx, 'Conteúdo não encontrado!!', 404)
     }
 }
 
-const pagoPedido = (indice) => {
-    const listaPedidosPagos = []
-    const pedido = obterListaPedidos(indice)
-    if (pedido.pago === true) {
-       pedidos.splice(indice, 1)
-       listaPedidosPagos.push(pedido)
-       return true
-    } else {
-        return false
+const rotaStatusEntregue = (ctx) => {
+    switch (ctx.method) {
+        case 'GET':
+            formatarReqSucesso(ctx, obterPedidosEntregues())
+            break
+        default:
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
-}
+}  
 
-const entreguePedido = (indice) => {
-    const listaPedidosEntregues = []
-    const pedido = obterListaPedidos(indice)
-    if (pedido.entregue === true) {
-       pedidos.splice(indice, 1)
-       listaPedidosEntregues.push(pedido)
-       return true
-    } else {
-        return false
+const rotaStatusPago = (ctx) => {
+    switch (ctx.method) {
+        case 'GET':
+            formatarReqSucesso(ctx, obterPedidosPagos())
+            break
+        default:
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
-}
+}  
 
-const processandoPedido = (indice) => {
-    const listaPedidosProcessando = []
-    const pedido = obterListaPedidos(indice)
-    if (pedido.processando === true) {
-       pedidos.splice(indice, 1)
-       listaPedidosProcessando.push(pedido)
-       return true
-    } else {
-        return false
+const rotaStatusProcessando = (ctx) => {
+    switch (ctx.method) {
+        case 'GET':
+            formatarReqSucesso(ctx, obterPedidosProcessando())
+            break
+        default:
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
-}
+}  
 
-const deletadoPedido = (indice) => {
-    const listaPedidosDeletados = []
-    const pedido = obterListaPedidos(indice)
-    if (pedido.deletado === true) {
-       pedidos.splice(indice, 1)
-       listaPedidosDeletados.push(pedido)
-       return true
-    } else {
-        return false
+const rotaStatusCancelado = (ctx) => {
+    switch (ctx.method) {
+        case 'GET':
+            formatarReqSucesso(ctx, obterPedidosCancelados())
+            break
+        default:
+            formatarReqErro(ctx, "Método não permitido!!!", 405)
+            break;
     }
-}
-
-/*---------------------------------------*/
-
-
-    if (tarefa) {
-        listaTarefas.splice(indice, 1, tarefaAtualizada)
-        return tarefaAtualizada
-     } else {
-         return false
-     }
-}
+}  
 
 server.use((ctx) => {
-    if (ctx.url === '/tarefas') {
-        if (ctx.method === 'GET') {
-            ctx.body = obterLista()
-        } else if (ctx.method === 'POST') {
-                ctx.body = addTarefa(ctx.request.body) //bodyparser
-        } else if (ctx.method === 'PUT') {
-            const indice = ctx.request.body.indice
-            const estado = ctx.request.body.estado
-
-            if (indice && (estado  === true && estado === false)) {
-                ctx.status = 400
-                ctx.body = "Requisicao mal formatada!!"
-            } else {
-                const resposta = atualizarTarefa(indice, estado)
-                if (resposta) {
-                    ctx.body = resposta
-                } else {
-                    ctx.status = 404
-                    ctx.body = resposta
-                }
-            }
-
-        } else {
-            ctx.status = 404
-            ctx.body = 'Não encontrado!'
-        }
-    } else if (ctx.url.includes("/tarefas/")) {
-            const quebra = ctx.url.split("/")
-            if (quebra[1] === "tarefas") {
-                const indice = quebra[2]
-                if (indice) {
-                    if (ctx.method === 'GET') {
-                        ctx.body = obterTarefa(indice)
-                    } else if (ctx.method === 'DELETE') {
-                        const resposta = ctx.body = delTarefa(indice)
-                        if (resposta === true) {
-                            ctx.body = "Tarefa deletada com sucesso"
-                        } else {
-                            ctx.body = "Não foi possível deletar tarefa"
-                        }
-                }
-                
-            } else {
-                ctx.status = 404
-                ctx.body = 'Não encontrado!'
-            }
-    
-        }
-    } else {
-        ctx.status = 404
-        ctx.body = 'Não encontrado!'
-    }
+    rotas(ctx)
 })
 
 server.listen(8080, () => console.log("Servidor rodando na porta 8080"))
